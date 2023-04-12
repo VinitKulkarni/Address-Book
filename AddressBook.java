@@ -38,6 +38,7 @@ class Contact {
 }
 
 public class AddressBook {
+    static int index = 0;
 
     static void addContact(Contact contactArray[]){
         Scanner sc = new Scanner(System.in);
@@ -66,91 +67,102 @@ public class AddressBook {
         System.out.print("Enter the Email Id:");
         String email = sc.next();
 
-        contactArray[0] = new Contact(fName, lName, address, city, state, zip, phoneNumber, email);
+        while(index >= 0 && index < contactArray.length) {
+            contactArray[index] = new Contact(fName, lName, address, city, state, zip, phoneNumber, email);
+            index++;
+            break;
+        }
     }
 
     static void editContact(String name, Contact contactArray[]) {
         Scanner sc = new Scanner(System.in);
-
         boolean flag = false;
-        if (contactArray[0].firstName.equals(name)) {
-            flag = true;
-            if (flag == true) {
-                System.out.println("1.LastName 2.Address 3.City 4.State 5.ZipCode 6.PhoneNumber 7.Email 8.Exit");
-                int editOption = sc.nextInt();
-                switch (editOption) {
-                    case 1:
-                        System.out.print("Edit last name:");
-                        String tempLastName = sc.next();
-                        contactArray[0].lastName = tempLastName;
-                        break;
-                    case 2:
-                        System.out.print("Edit address:");
-                        String tempAddress = sc.next();
-                        contactArray[0].address = tempAddress;
-                        break;
-                    case 3:
-                        System.out.print("Edit city:");
-                        String tempCity = sc.next();
-                        contactArray[0].city = tempCity;
-                        break;
-                    case 4:
-                        System.out.print("Edit state:");
-                        String tempState = sc.next();
-                        contactArray[0].state = tempState;
-                        break;
-                    case 5:
-                        System.out.print("Edit zip:");
-                        int tempZip = sc.nextInt();
-                        contactArray[0].zip = tempZip;
-                        break;
-                    case 6:
-                        System.out.print("Edit phone:");
-                        long tempPhoneNumber = sc.nextLong();
-                        contactArray[0].phoneNumber = tempPhoneNumber;
-                        break;
-                    case 7:
-                        System.out.print("Edit email:");
-                        String tempEmail = sc.next();
-                        contactArray[0].emailId = tempEmail;
-                        break;
-                    case 8:
-                        System.exit(100);
-                        break;
-                    default:
-                        System.out.println("!!!something went wrong!!!");
-                        break;
+        for (int i = 0; i < contactArray.length; i++) {
+            if (contactArray[i].firstName.equals(name)) {
+                flag = true;
+                if (flag == true) {
+                    System.out.println("1.lastName 2.address 3.city 4.state 5.zip 6.phoneNumber 7.email 8.exit");
+                    int editOption = sc.nextInt();
+                    switch (editOption) {
+                        case 1:
+                            System.out.print("edit last name:");
+                            String tempLastName = sc.next();
+                            contactArray[i].lastName = tempLastName;
+                            break;
+                        case 2:
+                            System.out.print("edit address:");
+                            String tempAddress = sc.next();
+                            contactArray[i].address = tempAddress;
+                            break;
+                        case 3:
+                            System.out.print("edit city:");
+                            String tempCity = sc.next();
+                            contactArray[i].city = tempCity;
+                            break;
+                        case 4:
+                            System.out.print("edit state:");
+                            String tempState = sc.next();
+                            contactArray[i].state = tempState;
+                            break;
+                        case 5:
+                            System.out.print("edit zip:");
+                            int tempZip = sc.nextInt();
+                            contactArray[i].zip = tempZip;
+                            break;
+                        case 6:
+                            System.out.print("edit phone:");
+                            long tempPhoneNumber = sc.nextLong();
+                            contactArray[i].phoneNumber = tempPhoneNumber;
+                            break;
+                        case 7:
+                            System.out.print("edit email:");
+                            String tempEmail = sc.next();
+                            contactArray[i].emailId = tempEmail;
+                            break;
+                        case 8:
+                            System.exit(100);
+                            break;
+                        default:
+                            System.out.println("something went wrong");
+                            break;
                     }
+                    break;
                 } else {
                     flag = false;
                 }
             }
+        }
         if (flag == false)
             System.out.println(name + " not found in address book");
     }
 
     static void displayContacts(Contact contactArray[]){
-        Scanner sc = new Scanner(System.in);
         System.out.println("================");
         System.out.println();
 
-        if(contactArray[0] == null)
-            System.out.println();
-        else
-            contactArray[0].displayContactDetails();
-
+        for(int i=0; i<contactArray.length; i++){
+            if(contactArray[i] == null)
+                System.out.println();
+            else
+                contactArray[i].displayContactDetails();
+        }
         System.out.println();
+
         System.out.println("================");
     }
 
     static void deleteContact(String deleteName, Contact contactArray[]){
         boolean flag = false;
-        if(contactArray[0] == null)
-            System.out.println();
-        else {
-            if (contactArray[0].firstName.equals(deleteName)){
-                flag = true;
-                contactArray[0] = null;
+        for (int i = 0; i < contactArray.length; i++) {
+            if(contactArray[i] == null) {
+                System.out.println();
+            }
+            else {
+                if (contactArray[i].firstName.equals(deleteName)){
+                    flag = true;
+                    contactArray[i] = null;
+                    break;
+                }
             }
         }
         if (flag == false)
@@ -159,7 +171,7 @@ public class AddressBook {
 
     public static void main(String[] args) {
         System.out.println(" * * * WELCOME TO ADDRESS BOOK * * * ");
-        Contact contactArray[] = new Contact[1];
+        Contact contactArray[] = new Contact[2];
         Scanner sc = new Scanner(System.in);
 
         int temp = 1;
@@ -170,7 +182,12 @@ public class AddressBook {
 
             switch (choice) {
                 case 1:
-                    addContact(contactArray);
+                    if(index == contactArray.length){
+                        System.out.println("address book memory is full");
+                        System.out.println("you cannot add new contacts");
+                    }else {
+                        addContact(contactArray);
+                    }
                     break;
                 case 2:
                     System.out.print("Enter person name you want to edit the details:");
