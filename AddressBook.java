@@ -11,9 +11,10 @@ class Contact {
     int zip;
     long phoneNumber;
     String emailId;
+    int uniqueNumber;
 
     public Contact(String firstName, String lastName, String address, String city, String state, int zip,
-                   long phoneNumber, String emailId){
+                   long phoneNumber, String emailId, int uniqueNumber){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -22,10 +23,12 @@ class Contact {
         this.zip = zip;
         this.phoneNumber = phoneNumber;
         this.emailId = emailId;
+        this.uniqueNumber = uniqueNumber;
     }
 
     public void displayContactDetails(){
         System.out.println("--- CONTACT DETAILS ---");
+        System.out.println("UNIQUE NUMBER => " + uniqueNumber);
         System.out.println("FIRST NAME => " + firstName);
         System.out.println("LAST NAME => " + lastName);
         System.out.println("ADDRESS => " + address);
@@ -39,6 +42,7 @@ class Contact {
 
 public class AddressBook {
     static int index = 0;
+    static int number = 1;
 
     static void addContact(Contact contactArray[]){
         Scanner sc = new Scanner(System.in);
@@ -68,7 +72,10 @@ public class AddressBook {
         String email = sc.next();
 
         while(index >= 0 && index < contactArray.length) {
-            contactArray[index] = new Contact(fName, lName, address, city, state, zip, phoneNumber, email);
+            int uniqueNumber = number;
+            number++;
+
+            contactArray[index] = new Contact(fName, lName, address, city, state, zip, phoneNumber, email, uniqueNumber);
             index++;
             break;
         }
@@ -171,7 +178,7 @@ public class AddressBook {
 
     public static void main(String[] args) {
         System.out.println(" * * * WELCOME TO ADDRESS BOOK * * * ");
-        Contact contactArray[] = new Contact[2];
+        Contact contactArray[] = new Contact[3];
         Scanner sc = new Scanner(System.in);
 
         int temp = 1;
