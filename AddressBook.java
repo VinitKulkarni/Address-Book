@@ -143,6 +143,20 @@ public class AddressBook {
         System.out.println("================");
     }
 
+    static void deleteContact(String deleteName, Contact contactArray[]){
+        boolean flag = false;
+        if(contactArray[0] == null)
+            System.out.println();
+        else {
+            if (contactArray[0].firstName.equals(deleteName)){
+                flag = true;
+                contactArray[0] = null;
+            }
+        }
+        if (flag == false)
+            System.out.println(deleteName + " not found in address book");
+    }
+
     public static void main(String[] args) {
         System.out.println(" * * * WELCOME TO ADDRESS BOOK * * * ");
         Contact contactArray[] = new Contact[1];
@@ -150,7 +164,7 @@ public class AddressBook {
 
         int temp = 1;
         while (temp != 0) {
-            System.out.println("[1.ADD_CONTACT]  [2.EDIT]  [3.DISPLAY]  [4.EXIT]");
+            System.out.println("[1.ADD_CONTACT]  [2.EDIT]  [3.DISPLAY]  [4.DELETE]  [5.EXIT]");
             System.out.print("choice:");
             int choice = sc.nextInt();
 
@@ -167,6 +181,11 @@ public class AddressBook {
                     displayContacts(contactArray);
                     break;
                 case 4:
+                    System.out.print("Enter person name you want to delete the details:");
+                    String deleteName = sc.next();
+                    deleteContact(deleteName, contactArray);
+                    break;
+                case 5:
                     temp = 0;
                     break;
                 default:
